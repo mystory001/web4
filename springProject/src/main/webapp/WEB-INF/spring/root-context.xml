@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+
+<!-- MemberController 객체 생성 -->
+	<bean id="memberController" class="com.itwillbs.controller.MemberController">
+<!-- 		<constructor-arg name="memberService" ref="memberService"></constructor-arg> -->
+			<property name="memberService" ref="memberService"></property>
+	</bean>
+
+
+<!-- //부모(인터페이스) = 자식(인터페이스를 상속받은 클래스) 객체 생성
+     MemberService 객체 생성 
+     자바 MemberService memberService = new MemberService();
+     스프링 <bean id="변수명" class="경로">-->
+	<bean id="memberService" class="com.itwillbs.service.MemberService">
+	<property name="memberDAO" ref="memberDAO"></property>
+	</bean>
+
+	
+<!-- MemberDAO 객체 생성 -->
+	<bean id="memberDAO" class="com.itwillbs.dao.MemberDAO">
+<!--<property name="set메소드 이름" ref="객체생성 참조변수"></property> -->
+	<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+<!-- 데이터베이스 연결 객체 생성 
+	 프로그램 설치
+	 → 자동으로 프로그램 설치 Maven 의존
+	 → Maven 서버에 프로그램이 저장되어 있고 다운받고자 하는 프로그램 이름을 적으면 다운받아서 사용 
+	 → 프로그램 맨 아래 pom.xml(다운받고 싶은 프로그램 목록을 적음)
+	 → 웹 maven repository 검색
+	 → https://mvnrepository.com/에서 mysql 검색 
+	 → 중간에 Maven 코드 복사
+	 → pom.xml에 코드 붙여넣기 
+	 → https://mvnrepository.com/에서 Spring JDBC 검색
+	 → 버전 수정 <version>${org.springframework-version}</version> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/jspdb?serverTimezone=Asia/Seoul"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="1234"></property>
+	</bean>
+
+	
+</beans>
